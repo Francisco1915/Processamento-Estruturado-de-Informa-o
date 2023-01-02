@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reserva xmlns="http://www.visitaOpaiNatal.pt/reservaTypes" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.visitaOpaiNatal.pt/reservaTypes reservaTypes.xsd">
+    <familia>
+        <origem>
+            <país>United States of America</país>
+            <cidade>New York</cidade>
+        </origem>
+        <numElementos>4</numElementos>
+        <elementos>
+            <elemento>
+                <genero>Masculino</genero>
+                <primeiroNome>Francisco</primeiroNome>
+                <segundoNome>Pinto</segundoNome>
+                <dataNascimento>1962-03-14</dataNascimento>
+            </elemento>
+            <elemento>
+                <genero>Feminino</genero>
+                <primeiroNome>Luísa</primeiroNome>
+                <segundoNome>Borges</segundoNome>
+                <dataNascimento>1962-10-25</dataNascimento>
+            </elemento>
+            <elemento>
+                <genero>Masculino</genero>
+                <primeiroNome>Luis</primeiroNome>
+                <segundoNome>Sousa</segundoNome>
+                <dataNascimento>2002-08-14</dataNascimento>
+            </elemento>
+            <elemento>
+                <genero>Masculino</genero>
+                <primeiroNome>Francisco</primeiroNome>
+                <segundoNome>Sousa</segundoNome>
+                <dataNascimento>2002-08-14</dataNascimento>
+            </elemento>
+        </elementos>
+    </familia>
+    <preferencias>
+        <dataPrevista prioridade="1">2022-12-21</dataPrevista>
+        <dataPrevista prioridade="2">2022-12-19</dataPrevista>
+        <dataPrevista prioridade="3">2022-12-17</dataPrevista>
+    </preferencias>
+</reserva>

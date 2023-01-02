@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reserva xmlns="http://www.visitaOpaiNatal.pt/reservaTypes" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.visitaOpaiNatal.pt/reservaTypes reservaTypes.xsd">
+    <familia>
+        <origem>
+            <país>Germany</país>
+            <cidade>Porto</cidade>
+        </origem>
+        <numElementos>2</numElementos>
+        <elementos>
+            <elemento>
+                <genero>Masculino</genero>
+                <primeiroNome>Luis</primeiroNome>
+                <segundoNome>Sousa</segundoNome>
+                <dataNascimento>2002-08-14</dataNascimento>
+            </elemento>
+            <elemento>
+                <genero>Feminino</genero>
+                <primeiroNome>Francisco</primeiroNome>
+                <segundoNome>Sousa</segundoNome>
+                <dataNascimento>2002-08-14</dataNascimento>
+            </elemento>
+        </elementos>
+    </familia>
+    <preferencias>
+        <dataPrevista prioridade="1">2022-12-21</dataPrevista>
+        <dataPrevista prioridade="2">2022-12-21</dataPrevista>
+        <dataPrevista prioridade="3">2022-12-21</dataPrevista>
+    </preferencias>
+</reserva>

@@ -1,0 +1,164 @@
+Total de agendamentos
+[{
+    $match: {
+        Cancelamento: 'false'
+    }
+}, {
+    $count: 'Total de agendamentos'
+}]
+
+
+Total de familias por dia
+[{
+    $match: {
+        Cancelamento: 'false'
+    }
+}, {
+    $group: {
+        _id: '$Data',
+        familiaspordia: {
+            $sum: 1
+        }
+    }
+}, {
+    $project: {
+        _id: 0,
+        Data: '$_id',
+        Familias: '$familiaspordia'
+    }
+}]
+
+Percentagem de ocupação por dia
+[{$match: {
+ Cancelamento: 'false'
+}}, {$group: {
+ _id: '$Data',
+ percentagemOcupacaoPorDia: {
+  $sum: {
+   $multiply: [
+    {
+     $divide: [
+      1,
+      50
+     ]
+    },
+    100
+   ]
+  }
+ }
+}}, {$project: {
+ _id: 0,
+ Data: '$_id',
+ PercentagemOcupacaoPorDia: '$percentagemOcupacaoPorDia'
+}}]
+
+Cancelamento por dia
+[{$match: {
+ Cancelamento: 'true'
+}}, {$group: {
+ _id: '$Data',
+ CancelamentosPorDia: {
+  $sum: 1
+ }
+}}, {$project: {
+ _id: 0,
+ Data: '$_id',
+ CancelamentosPorDia: '$CancelamentosPorDia'
+}}]
+
+Agendamentos por Pais
+[{$match: {
+ Cancelamento: 'false'
+}}, {$group: {
+ _id: '$Familia.Origem.país',
+ agendamentosPorPais: {
+  $sum: 1
+ }
+}}, {$project: {
+ _id: 0,
+ 'País': '$_id',
+ 'AgendamentoPorPaís': '$agendamentosPorPais'
+}}]
+
+Agendamentos por cidade
+[{$match: {
+ Cancelamento: 'false'
+}}, {$group: {
+ _id: '$Familia.Origem.cidade',
+ agendamentosPorCidade: {
+  $sum: 1
+ }
+}}, {$project: {
+ _id: 0,
+ 'País': '$_id',
+ AgendamentoPorCidade: '$agendamentosPorCidade'
+}}]
+
+Total de pessoas por dia
+[{$match: {
+ Cancelamento: 'false'
+}}, {$addFields: {
+ 'Familia.NumElementos': {
+  $convert: {
+   input: '$Familia.NumElementos',
+   to: 'int'
+  }
+ }
+}}, {$group: {
+ _id: '$Data',
+ TotalPessoasPorDia: {
+  $sum: '$Familia.NumElementos'
+ }
+}}, {$project: {
+ _id: 0,
+ Data: '$_id',
+ TotalPessoasPorDia: '$TotalPessoasPorDia'
+}}]
+
+Genero
+[{$match: {
+ Cancelamento: 'false'
+}}, {$project: {
+ _id: 0,
+ Elementos: '$Familia.Elementos'
+}}, {$unwind: {
+ path: '$Elementos'
+}}, {$group: {
+ _id: '$Elementos.genero',
+ NumDeCadaElemento: {
+  $sum: 1
+ }
+}}, {$project: {
+ _id: 0,
+ Genero: '$_id',
+ NumElementos: '$NumDeCadaElemento'
+}}]
+
+Intervalo de Idades
+[{$match: {
+ Cancelamento: 'false'
+}}, {$project: {
+ _id: 0,
+ Elementos: '$Familia.Elementos'
+}}, {$unwind: {
+ path: '$Elementos'
+}}, {$addFields: {
+ 'Elementos.dataNascimento': {
+  $convert: {
+   input: '$Elementos.dataNascimento',
+   to: 'date'
+  }
+ }
+}}, {$project: {
+ Age: {
+  $divide: [
+   {
+    $subtract: [
+     ISODate('2022-01-16T15:46:45.542Z'),
+     '$Elementos.dataNascimento'
+    ]
+   },
+   31536000000
+  ]
+ }
+}}]

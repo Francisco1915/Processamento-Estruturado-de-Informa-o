@@ -1,0 +1,26 @@
+var reservas = db.import.aggregate([
+        {"$unwind": {
+ "path": "$Reservas.Reserva"
+            }
+        },
+        {"$project": {
+ "_id": 0,
+ "Id": "$Reservas.Reserva.Id",
+ "Data": "$Reservas.Reserva.Data",
+ "Cancelamento": "$Reservas.Reserva.Cancelamento",
+ "Familia": {
+  "Origem": "$Reservas.Reserva.Familia.familia.origem",
+  "NumElementos": "$Reservas.Reserva.Familia.familia.numElementos",
+  "Elementos": "$Reservas.Reserva.Familia.familia.elementos.elemento"
+                }
+            }
+        }
+    ])
+
+reservas.forEach( 
+	function(doc) {
+		db.Reservas.insertOne(doc);
+	}
+)
+
+ 

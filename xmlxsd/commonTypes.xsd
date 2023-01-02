@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.visitaOpaiNatal.pt/commonTypes" targetNamespace="http://www.visitaOpaiNatal.pt/commonTypes" elementFormDefault="qualified">
+
+    <xs:simpleType name="cidadeType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="15"></xs:maxLength>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="paísType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Germany"></xs:enumeration>
+            <xs:enumeration value="Luxembourg"></xs:enumeration>
+            <xs:enumeration value="Mexico"></xs:enumeration>
+            <xs:enumeration value="Monaco"></xs:enumeration>
+            <xs:enumeration value="Netherlands"></xs:enumeration>
+            <xs:enumeration value="Portugal"></xs:enumeration>
+            <xs:enumeration value="Russia"></xs:enumeration>
+            <xs:enumeration value="Spain"></xs:enumeration>
+            <xs:enumeration value="Switzerland"></xs:enumeration>
+            <xs:enumeration value="Turkey"></xs:enumeration>
+            <xs:enumeration value="Sweden"></xs:enumeration>
+            <xs:enumeration value="United States of America"></xs:enumeration>
+            <xs:enumeration value="United Kingdom"></xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="dataType">
+        <xs:restriction base="xs:date">
+            <xs:maxInclusive value="2022-12-25"></xs:maxInclusive>
+            <xs:minInclusive value="2022-09-16"></xs:minInclusive>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="dataPrioType">
+        <xs:simpleContent>
+            <xs:extension base="dataType">
+                <xs:attribute name="prioridade" use="required">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[1-5]"></xs:pattern>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="generoType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Masculino"></xs:enumeration>
+            <xs:enumeration value="Feminino"></xs:enumeration>
+            <xs:enumeration value="Sem resposta"></xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

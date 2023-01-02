@@ -1,0 +1,456 @@
+{
+	"info": {
+		"_postman_id": "d3eaed20-3a4c-4b51-9f2f-ea340b2302af",
+		"name": "Projeto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Reserva",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<reserva xmlns=\"http://www.visitaOpaiNatal.pt/reservaTypes\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.visitaOpaiNatal.pt/reservaTypes reservaTypes.xsd\">\r\n    <familia>\r\n        <origem>\r\n            <país>Portugal</país>\r\n            <cidade>Porto</cidade>\r\n        </origem>\r\n        <numElementos>2</numElementos>\r\n        <elementos>\r\n            <elemento>\r\n                <genero>Masculino</genero>\r\n                <primeiroNome>Luis</primeiroNome>\r\n                <segundoNome>Sousa</segundoNome>\r\n                <dataNascimento>2002-08-14</dataNascimento>\r\n            </elemento>\r\n            <elemento>\r\n                <genero>Feminino</genero>\r\n                <primeiroNome>Francisco</primeiroNome>\r\n                <segundoNome>Sousa</segundoNome>\r\n                <dataNascimento>2002-08-14</dataNascimento>\r\n            </elemento>\r\n        </elementos>\r\n    </familia>\r\n    <preferencias>\r\n        <dataPrevista prioridade=\"1\">2022-12-19</dataPrevista>\r\n        <dataPrevista prioridade=\"2\">2022-12-21</dataPrevista>\r\n        <dataPrevista prioridade=\"3\">2022-12-21</dataPrevista>\r\n    </preferencias>\r\n</reserva>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8984/add",
+					"host": [
+						"localhost"
+					],
+					"port": "8984",
+					"path": [
+						"add"
+					]
+				},
+				"description": "**EndPoint para a submissão do documento correspondente a um agendamento. Valida o documento XML submetido e regista o agendamento. É apresentado o resultado da operação, caso alguma das datas de previstas tenha vaga retorna \"Adicionada com sucesso!\" e é gerado um código de reserva gerado automaticamente, caso contrario \"Datas previstas cheias!\".**"
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Base Dados",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8984/init",
+					"host": [
+						"localhost"
+					],
+					"port": "8984",
+					"path": [
+						"init"
+					]
+				},
+				"description": "**EndPoint para criar a base de dados onde serão armazenados todos os agendamentos.**"
+			},
+			"response": []
+		},
+		{
+			"name": "Cancelar Reserva",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8984/remove?id=",
+					"host": [
+						"localhost"
+					],
+					"port": "8984",
+					"path": [
+						"remove"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": ""
+						}
+					]
+				},
+				"description": "**EndPoint para cancelar um agendamento segundo o id do agendamento recebido.**"
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar Datas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8984/disponibilidade?from=&to=",
+					"host": [
+						"localhost"
+					],
+					"port": "8984",
+					"path": [
+						"disponibilidade"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": ""
+						},
+						{
+							"key": "to",
+							"value": ""
+						}
+					]
+				},
+				"description": "**EndPoint que permite verificar a disponibilidade de todas as datas ou em um determinado intervalo de dias.**\n\n**Se não der valor às Query Params dá a disponibilidade de todos as datas e as datas que não aparecerem é porque estão totalmente disponíveis.**\n\n**Se as Query Params tiverem validas dá a disponibilidade entre ele intervalo de dias, (deve se respeitar o seguinte formato para a data \"aaaa-mm-dd\").**"
+			},
+			"response": []
+		},
+		{
+			"name": "Export reservas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseJson = xml2Json(responseBody);\r",
+							"\r",
+							"pm.collectionVariables.set(\"parsedData\", JSON.stringify(responseJson));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8984/export_xml",
+					"host": [
+						"localhost"
+					],
+					"port": "8984",
+					"path": [
+						"export_xml"
+					]
+				},
+				"description": "**EndPoint que recebe da base de dos do basex os agendamentos e converte para json e guarda na variable parsedData.**"
+			},
+			"response": []
+		},
+		{
+			"name": "AtlasInsertOne",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Access-Control-Request-Headers",
+						"value": "*",
+						"type": "text"
+					},
+					{
+						"key": "api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"collection\": \"teste\",\r\n    \"database\": \"Teste\",\r\n    \"dataSource\": \"Cluster0\",\r\n    \"document\": {{parsedData}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://data.mongodb-api.com/app/data-lyvll/endpoint/data/beta/action/insertOne",
+					"protocol": "https",
+					"host": [
+						"data",
+						"mongodb-api",
+						"com"
+					],
+					"path": [
+						"app",
+						"data-lyvll",
+						"endpoint",
+						"data",
+						"beta",
+						"action",
+						"insertOne"
+					]
+				},
+				"description": "**EndPoint para inserir os dados exportados pelo endpoint \"Export Reservas\" da base de dados do MongoDB.**"
+			},
+			"response": []
+		},
+		{
+			"name": "AtlasInsertMany",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Access-Control-Request-Headers",
+						"value": "*",
+						"type": "text"
+					},
+					{
+						"key": "api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"collection\": \"Reservas\",\r\n    \"database\": \"Teste\",\r\n    \"dataSource\": \"Cluster0\",\r\n    \"document\": {{parsedData}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://data.mongodb-api.com/app/data-lyvll/endpoint/data/beta/action/insertMany",
+					"protocol": "https",
+					"host": [
+						"data",
+						"mongodb-api",
+						"com"
+					],
+					"path": [
+						"app",
+						"data-lyvll",
+						"endpoint",
+						"data",
+						"beta",
+						"action",
+						"insertMany"
+					]
+				},
+				"description": "**EndPoint para inserir os dados exportados pelo endpoint \"Export Reservas\" da base de dados do MongoDB.**"
+			},
+			"response": []
+		},
+		{
+			"name": "AtlasWantedModel",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Access-Control-Request-Headers",
+						"value": "*",
+						"type": "text"
+					},
+					{
+						"key": "api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"dataSource\": \"Cluster0\",\r\n      \"database\": \"Teste\",\r\n      \"collection\": \"teste\",\r\n      \"pipeline\": [\r\n        {\"$unwind\": {\r\n \"path\": \"$Reservas.Reserva\"\r\n            }\r\n        },\r\n        {\"$project\": {\r\n \"_id\": 1,\r\n \"Id\": \"$Reservas.Reserva.Id\",\r\n \"Data\": \"$Reservas.Reserva.Data\",\r\n \"Cancelamento\": \"$Reservas.Reserva.Cancelamento\",\r\n \"Familia\": {\r\n  \"Origem\": \"$Reservas.Reserva.Familia.familia.origem\",\r\n  \"NumElementos\": \"$Reservas.Reserva.Familia.familia.numElementos\",\r\n  \"Elementos\": \"$Reservas.Reserva.Familia.familia.elementos.elemento\"\r\n                }\r\n            }\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://data.mongodb-api.com/app/data-lyvll/endpoint/data/beta/action/aggregate",
+					"protocol": "https",
+					"host": [
+						"data",
+						"mongodb-api",
+						"com"
+					],
+					"path": [
+						"app",
+						"data-lyvll",
+						"endpoint",
+						"data",
+						"beta",
+						"action",
+						"aggregate"
+					]
+				},
+				"description": "**EndPoint que permite obter os dados guardados na base de dados do Mongo e executar um pipeline para modelar os documentos para o modelo desejado e guarda-los na variable \"parseData\" .**\n\n**(Não esta operacional pois ao inserir no MongoAtlas através do endPoint \"AtlasInsertOne\" insere como um documento com os agendamentos guardados em Array, mas devia inserir todos os agendamentos em documentos diferentes)**"
+			},
+			"response": []
+		},
+		{
+			"name": "AtlasDeleteManyReservas",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Access-Control-Request-Headers",
+						"value": "*",
+						"type": "text"
+					},
+					{
+						"key": "api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"collection\": \"Reservas\",\r\n    \"database\": \"Teste\",\r\n    \"dataSource\": \"Cluster0\",\r\n    \"filter\": {}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://data.mongodb-api.com/app/data-lyvll/endpoint/data/beta/action/deleteMany",
+					"protocol": "https",
+					"host": [
+						"data",
+						"mongodb-api",
+						"com"
+					],
+					"path": [
+						"app",
+						"data-lyvll",
+						"endpoint",
+						"data",
+						"beta",
+						"action",
+						"deleteMany"
+					]
+				},
+				"description": "**EndPoint para eliminar os documentos da collection Reservas.**"
+			},
+			"response": []
+		},
+		{
+			"name": "AtlasDeleteManyImport",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Access-Control-Request-Headers",
+						"value": "*",
+						"type": "text"
+					},
+					{
+						"key": "api-key",
+						"value": "{{api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"collection\": \"import\",\r\n    \"database\": \"Teste\",\r\n    \"dataSource\": \"Cluster0\",\r\n    \"filter\": {}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://data.mongodb-api.com/app/data-lyvll/endpoint/data/beta/action/deleteMany",
+					"protocol": "https",
+					"host": [
+						"data",
+						"mongodb-api",
+						"com"
+					],
+					"path": [
+						"app",
+						"data-lyvll",
+						"endpoint",
+						"data",
+						"beta",
+						"action",
+						"deleteMany"
+					]
+				},
+				"description": "**EndPoint para eliminar os documentos da collection Import.**"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "parsedData",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

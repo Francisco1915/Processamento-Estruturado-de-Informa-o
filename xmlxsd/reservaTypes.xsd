@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.visitaOpaiNatal.pt/reservaTypes" targetNamespace="http://www.visitaOpaiNatal.pt/reservaTypes" xmlns:c="http://www.visitaOpaiNatal.pt/commonTypes" elementFormDefault="qualified">
+
+    <xs:import schemaLocation="commonTypes.xsd" namespace="http://www.visitaOpaiNatal.pt/commonTypes"></xs:import>
+
+    <xs:element name="reserva">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="familia">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="origem">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="país" type="c:paísType"></xs:element>
+                                        <xs:element name="cidade" type="c:cidadeType"></xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="numElementos">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:int">
+                                        <xs:pattern value="[1-7]"></xs:pattern>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="elementos">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="elemento" minOccurs="1" maxOccurs="7">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="genero" type="c:generoType"></xs:element>
+                                                    <xs:element name="primeiroNome" type="xs:string"></xs:element>
+                                                    <xs:element name="segundoNome" type="xs:string"></xs:element>
+                                                    <xs:element name="dataNascimento" type="xs:date"></xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="preferencias">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="dataPrevista" type="c:dataPrioType" minOccurs="1" maxOccurs="5"></xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
